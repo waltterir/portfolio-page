@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #2f3b47;
+  color: #e7ecef;
+  font-family: "JetBrains Mono", monospace;
+}
+
+#center {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.hero {
+  height: 3px;
+  width: 3rem;
+  background: #7fb3d5;
+  margin-bottom: 1.5rem;
+  border-radius: 2px;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.intro p {
+  background: #26313b;
+  padding: 1.25rem 1.5rem;
+  border-radius: 6px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #d3dae0;
+  margin: 0 0 2.5rem;
+}
+
+.projects-section > p {
+  color: #8fa3b3;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-card {
+  background: #26313b;
+  border: 1px solid #3a4753;
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.project-header h2 {
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.project-tag {
+  font-size: 0.75rem;
+  color: #8fa3b3;
+}
+
+.project-card > p {
+  font-size: 0.875rem;
+  color: #c3ccd3;
+  line-height: 1.6;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.project-stack span {
+  font-size: 0.75rem;
+  color: #9fb2c1;
+  background: #1f282f;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+}
+
+.project-card a {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #7fb3d5;
+  text-decoration: none;
+}
+
+.project-card a:hover {
+  text-decoration: underline;
+}
+
+.social-section > p {
+  color: #8fa3b3;
+  font-size: 0.95rem;
+  margin: 2.5rem 0 1rem;
+}
+
+.social-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.social-links a {
+  font-size: 0.875rem;
+  color: #7fb3d5;
+  text-decoration: none;
+}
+
+.social-links a:hover {
+  text-decoration: underline;
+}
+
+.spotify-section {
+  margin-top: 2.5rem;
+}
+
+.spotify-section > p {
+  color: #8fa3b3;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.spotify-section iframe {
+  display: block;
+}
