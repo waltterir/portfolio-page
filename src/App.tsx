@@ -113,7 +113,7 @@ function App() {
           <ul className="social-links">
             <li>
               <a
-                href="https://github.com/waltteri"
+                href="https://github.com/waltterir"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -122,7 +122,7 @@ function App() {
             </li>
             <li>
               <a
-                href="https://linkedin.com/in/waltteri"
+                href="https://www.linkedin.com/in/waltteri-riihim%C3%A4ki-ba0323364/"
                 target="_blank"
                 rel="noreferrer"
               >
