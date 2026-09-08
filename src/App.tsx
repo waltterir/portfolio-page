@@ -57,11 +57,11 @@ function App() {
         <div className="intro">
           <h1>waltteri.dev</h1>
           <p>
-            Hi, I'm Waltteri. I'm finishing an IT degree at SAMK, focused on
+            Hellou, I'm Waltteri. I'm finishing an IT degree at SAMK, focused on
             backend development. Most days I'm building small APIs and trying to
-            learn new things. When I'm not at the keyboard, I'm usually at the
-            golf course, hanging out with my girlfriend or playing games with
-            friends :)
+            learn new things... When I'm not at the keyboard, I'm usually at the
+            golf course, unloading the dishwasher as my girlfriend observes my
+            unloading skills or playing games with friends :)
           </p>
         </div>
 
@@ -117,7 +117,7 @@ function App() {
                 target="_blank"
                 rel="noreferrer"
               >
-                [github.com/waltteri]
+                [github.com/waltterir]
               </a>
             </li>
             <li>
@@ -127,6 +127,15 @@ function App() {
                 rel="noreferrer"
               >
                 [linkedin.com/in/waltteri]
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/wriihimaki/?hl=en"
+                target="_blank"
+                rel="noreferrer"
+              >
+                [instagram.com/wriihimaki]
               </a>
             </li>
           </ul>
