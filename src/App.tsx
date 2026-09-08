@@ -19,6 +19,7 @@ const projects: Project[] = [
       "Sensor data management REST API built with FastAPI and SQLModel. Tested with pytest, containerized with Docker, deployed on AWS (ECS Fargate + RDS Postgres). Integrated with a MuleSoft workflow on CloudHub that polls the API and sends Slack alerts on sensor state changes.",
     stack: [
       "FastAPI",
+      "Python",
       "SQLModel",
       "Docker",
       "AWS ECS",
@@ -34,7 +35,7 @@ const projects: Project[] = [
     tag: "Practice project",
     description:
       "Production-style REST API for books and authors with JWT authentication, a pytest test suite, Docker containerization, and deployment to a GCP VM.",
-    stack: ["FastAPI", "JWT", "Docker", "GCP"],
+    stack: ["FastAPI", "Python", "JWT", "Docker", "GCP"],
     link: "https://github.com/waltterir/book-api-fastapi",
     linkLabel: "code",
   },
