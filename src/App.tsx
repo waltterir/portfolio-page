@@ -1,6 +1,5 @@
 import "./App.css";
-
-import "./App.css";
+import anturiFlow from "./assets/anturi-flow.png";
 
 interface Project {
   name: string;
@@ -16,8 +15,15 @@ const projects: Project[] = [
     name: "Anturi API",
     tag: "Capstone",
     description:
-      "Sensor data management REST API built with FastAPI and SQLModel. Tested with pytest, containerized with Docker, deployed on AWS (ECS Fargate + RDS Postgres).",
-    stack: ["FastAPI", "SQLModel", "Docker", "AWS ECS", "SQLite", "PostgreSQL"],
+      "Sensor data management REST API built with FastAPI and SQLModel. Tested with pytest, containerized with Docker, deployed on AWS (ECS Fargate + RDS Postgres). Integrated with a MuleSoft workflow on CloudHub that polls the API and sends Slack alerts on sensor state changes.",
+    stack: [
+      "FastAPI",
+      "SQLModel",
+      "Docker",
+      "AWS ECS",
+      "PostgreSQL",
+      "MuleSoft",
+    ],
     link: "http://anturi-api-alb-1717429430.eu-north-1.elb.amazonaws.com/docs",
   },
   {
@@ -68,6 +74,15 @@ function App() {
                     <span key={tech}>{tech}</span>
                   ))}
                 </div>
+
+                {project.name === "Anturi API" && (
+                  <img
+                    src={anturiFlow}
+                    alt="Anturi Monitor integration flow in Anypoint Studio"
+                    className="flow-image"
+                  />
+                )}
+
                 {project.link && (
                   <a href={project.link} target="_blank" rel="noreferrer">
                     [{project.linkLabel ?? "live docs"}]
