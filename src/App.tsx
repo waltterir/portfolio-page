@@ -130,15 +130,6 @@ function App() {
                 [linkedin.com/in/waltteri]
               </a>
             </li>
-            <li>
-              <a
-                href="https://www.instagram.com/wriihimaki/?hl=en"
-                target="_blank"
-                rel="noreferrer"
-              >
-                [instagram.com/wriihimaki]
-              </a>
-            </li>
           </ul>
         </div>
 
