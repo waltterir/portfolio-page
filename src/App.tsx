@@ -60,7 +60,7 @@ function App() {
             Hi, I'm Waltteri. I'm finishing an IT degree at SAMK, focused on
             backend development. Most days I'm building small APIs and trying to
             learn new things. When I'm not at the keyboard, I'm usually at the
-            golf course, hanging out with my fiance or playing games with
+            golf course, hanging out with my girlfriend or playing games with
             friends :)
           </p>
         </div>
