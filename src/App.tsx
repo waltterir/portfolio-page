@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import anturiFlow from "./assets/anturi-flow.png";
 
@@ -40,11 +41,12 @@ const projects: Project[] = [
     tag: "Web app",
     description: "Expense-splitting app for groups.",
     stack: ["React", "TypeScript", "Vercel"],
-    link: "https://smart-expense-splitter-pied.vercel.app/",
   },
 ];
 
 function App() {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
   return (
     <>
       <section id="center">
@@ -55,10 +57,11 @@ function App() {
             Hi, I'm Waltteri. I'm finishing an IT degree at SAMK, focused on
             backend development. Most days I'm building small APIs and trying to
             learn new things. When I'm not at the keyboard, I'm usually on the
-            golf course, hanging out home with my fiance or playing games with
+            golf course, hanging out with my fiance or playing games with
             friends :)
           </p>
         </div>
+
         <div className="projects-section">
           <p>Some of my projects:</p>
           <div className="projects">
@@ -76,11 +79,20 @@ function App() {
                 </div>
 
                 {project.name === "Anturi API" && (
-                  <img
-                    src={anturiFlow}
-                    alt="Anturi Monitor integration flow in Anypoint Studio"
-                    className="flow-image"
-                  />
+                  <div className="flow-preview">
+                    <img
+                      src={anturiFlow}
+                      alt="Anturi Monitor integration flow in Anypoint Studio"
+                      className="flow-image-small"
+                      onClick={() => setLightboxOpen(true)}
+                    />
+                    <button
+                      className="flow-link"
+                      onClick={() => setLightboxOpen(true)}
+                    >
+                      [view diagram]
+                    </button>
+                  </div>
                 )}
 
                 {project.link && (
@@ -92,12 +104,13 @@ function App() {
             ))}
           </div>
         </div>
+
         <div className="social-section">
           <p>Find me:</p>
           <ul className="social-links">
             <li>
               <a
-                href="https://github.com/waltterir"
+                href="https://github.com/waltteri"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -106,7 +119,7 @@ function App() {
             </li>
             <li>
               <a
-                href="https://www.linkedin.com/in/waltteri-riihim%C3%A4ki-ba0323364/"
+                href="https://linkedin.com/in/waltteri"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -115,8 +128,9 @@ function App() {
             </li>
           </ul>
         </div>
+
         <div className="spotify-section">
-          <p>What i'm listening when zoning:</p>
+          <p>What I'm listening to:</p>
           <iframe
             data-testid="embed-iframe"
             style={{ borderRadius: "12px" }}
@@ -129,6 +143,19 @@ function App() {
           ></iframe>
         </div>
       </section>
+
+      {lightboxOpen && (
+        <div
+          className="lightbox-overlay"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <img
+            src={anturiFlow}
+            alt="Anturi Monitor integration flow, enlarged"
+            className="lightbox-image"
+          />
+        </div>
+      )}
     </>
   );
 }
