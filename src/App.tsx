@@ -22,8 +22,10 @@ const projects: Project[] = [
       "SQLModel",
       "Docker",
       "AWS ECS",
+      "SQLite",
       "PostgreSQL",
       "MuleSoft",
+      "Slack",
     ],
     link: "http://anturi-api-alb-1717429430.eu-north-1.elb.amazonaws.com/docs",
   },
@@ -41,6 +43,7 @@ const projects: Project[] = [
     tag: "Web app",
     description: "Expense-splitting app for groups.",
     stack: ["React", "TypeScript", "Vercel"],
+    link: "https://smart-expense-splitter-pied.vercel.app/",
   },
 ];
 
