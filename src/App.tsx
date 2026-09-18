@@ -59,10 +59,10 @@ function App() {
           <h1>waltteri.dev</h1>
           <p>
             Hellou, I'm Waltteri. I'm finishing an IT degree at SAMK, focused on
-            backend development. Most days I'm building small APIs and trying to
-            learn new things... When I'm not at the keyboard, I'm usually at the
-            golf course, unloading the dishwasher as my girlfriend observes my
-            unloading skills or playing games with friends :)
+            backend development/integrations/cloud. Most days im trying to learn
+            new things, code, build and discover. When i'm not at the keyboard,
+            i'm at the golfcourse, hanging out with my girlfriend or playing
+            games with friends :)
           </p>
         </div>
 
@@ -131,20 +131,6 @@ function App() {
               </a>
             </li>
           </ul>
-        </div>
-
-        <div className="spotify-section">
-          <p>What I'm listening to:</p>
-          <iframe
-            data-testid="embed-iframe"
-            style={{ borderRadius: "12px" }}
-            src="https://open.spotify.com/embed/playlist/2yQovp9K4S9YKpV4OIlULC?utm_source=generator&theme=0"
-            width="100%"
-            height="352"
-            frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
         </div>
       </section>
 
