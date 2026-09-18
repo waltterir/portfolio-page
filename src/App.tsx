@@ -59,10 +59,10 @@ function App() {
           <h1>waltteri.dev</h1>
           <p>
             Hellou, I'm Waltteri. I'm finishing an IT degree at SAMK, focused on
-            backend development/integrations/cloud. Most days im trying to learn
-            new things, code, build and discover. When i'm not at the keyboard,
-            i'm at the golfcourse, hanging out with my girlfriend or playing
-            games with friends :)
+            backend development/integrations/cloud. Most days i'm trying to
+            learn new things, code, build and discover. When i'm not at the
+            keyboard, i'm at the golf course, hanging out with my girlfriend or
+            playing games with friends :)
           </p>
         </div>
 
