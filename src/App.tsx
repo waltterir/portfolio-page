@@ -16,7 +16,7 @@ const projects: Project[] = [
     name: "Anturi API",
     tag: "Capstone",
     description:
-      "Sensor data management REST API built with FastAPI and SQLModel. Tested with pytest and containerized with Docker. Previously deployed on AWS (ECS Fargate + RDS Postgres, behind an Application Load Balancer); the live demo is currently offline for cost reasons while I rebuild the infrastructure as code with Terraform. Integrated with a MuleSoft workflow on CloudHub that polls the API and sends Slack alerts on sensor state changes.",
+      "REST API for sensor data, built with FastAPI and SQLModel and tested with pytest. Ran on AWS ECS Fargate with RDS Postgres behind an ALB; I took it down to save costs and am rebuilding it with Terraform. A MuleSoft flow on CloudHub polls the API and posts sensor state changes to Slack.",
     stack: [
       "FastAPI",
       "Python",
@@ -29,12 +29,13 @@ const projects: Project[] = [
       "Slack",
     ],
     link: "https://github.com/waltterir/anturi-api",
+    linkLabel: "code",
   },
   {
     name: "Book API",
     tag: "Practice project",
     description:
-      "Production-style REST API for books and authors with JWT authentication, a pytest test suite, Docker containerization, and deployment to a GCP VM.",
+      "REST API for books and authors with JWT login and a pytest suite. Containerized with Docker and run on a GCP VM — my first deploy to the cloud.",
     stack: ["FastAPI", "Python", "JWT", "Docker", "GCP"],
     link: "https://github.com/waltterir/book-api-fastapi",
     linkLabel: "code",
@@ -54,15 +55,25 @@ function App() {
   return (
     <>
       <section id="center">
-        <div className="hero"></div>
-        <div className="intro">
+        <header className="landing">
+          <div className="hero"></div>
           <h1>waltteri.dev</h1>
-          <p>
-            Hi, I'm Waltteri. I'm finishing my IT degree at SAMK, focusing on
-            backend development, integrations and cloud. I'm interested in
-            architecture of all kinds, from APIs to infrastructure.
-          </p>
-        </div>
+          <div className="intro">
+            <p>
+              Hi, I'm Waltteri. I'm finishing my IT degree at SAMK, focusing on
+              backend development, integrations and cloud. I'm interested in
+              architecture of all kinds, from APIs to infrastructure.
+            </p>
+            <div className="learning">
+              <span className="learning-label">currently learning:</span>
+              <ul>
+                <li>AWS Cloud Practitioner Essentials</li>
+                <li>Terraform</li>
+                <li>GitHub Actions</li>
+              </ul>
+            </div>
+          </div>
+        </header>
 
         <div className="projects-section">
           <p>Some of my projects:</p>
