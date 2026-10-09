@@ -16,7 +16,7 @@ const projects: Project[] = [
     name: "Anturi API",
     tag: "Capstone",
     description:
-      "Sensor data management REST API built with FastAPI and SQLModel. Tested with pytest, containerized with Docker, deployed on AWS (ECS Fargate + RDS Postgres). Integrated with a MuleSoft workflow on CloudHub that polls the API and sends Slack alerts on sensor state changes.",
+      "Sensor data management REST API built with FastAPI and SQLModel. Tested with pytest and containerized with Docker. Previously deployed on AWS (ECS Fargate + RDS Postgres, behind an Application Load Balancer); the live demo is currently offline for cost reasons while I rebuild the infrastructure as code with Terraform. Integrated with a MuleSoft workflow on CloudHub that polls the API and sends Slack alerts on sensor state changes.",
     stack: [
       "FastAPI",
       "Python",
@@ -28,7 +28,7 @@ const projects: Project[] = [
       "MuleSoft",
       "Slack",
     ],
-    link: "http://anturi-api-alb-1717429430.eu-north-1.elb.amazonaws.com/docs",
+    link: "https://github.com/waltterir/anturi-api",
   },
   {
     name: "Book API",
@@ -58,11 +58,9 @@ function App() {
         <div className="intro">
           <h1>waltteri.dev</h1>
           <p>
-            Hellou, I'm Waltteri. I'm finishing an IT degree at SAMK, focused on
-            backend development/integrations/cloud. Most days i'm trying to
-            learn new things, code, build and discover. When i'm not at the
-            keyboard, i'm at the golf course, hanging out with my girlfriend or
-            playing games with friends :)
+            Hi, I'm Waltteri. I'm finishing my IT degree at SAMK, focusing on
+            backend development, integrations and cloud. I'm interested in
+            architecture of all kinds, from APIs to infrastructure.
           </p>
         </div>
 
