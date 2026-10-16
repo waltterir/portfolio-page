@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import anturiFlow from "./assets/anturi-flow.png";
+import anturiArchitecture from "./assets/anturi-api-architecture.png";
 
 interface Project {
   name: string;
@@ -16,15 +17,14 @@ const projects: Project[] = [
     name: "Anturi API",
     tag: "Capstone",
     description:
-      "REST API for sensor data, built with FastAPI and SQLModel and tested with pytest. The full AWS environment (ECS Fargate, RDS Postgres, ALB, Secrets Manager) is defined as code with Terraform and can be created and destroyed with one command, so it only runs when needed. A MuleSoft flow on CloudHub polls the API and posts sensor state changes to Slack.",
+      "REST API for sensor data, built with FastAPI and SQLModel and tested with pytest. The full AWS environment (ECS Fargate, RDS Postgres, ALB, Secrets Manager) is defined as code with Terraform, so it can be rebuilt on demand and torn down with one command. GitHub Actions runs the tests and Terraform checks on every push. A MuleSoft flow on CloudHub polls the API and posts sensor state changes to Slack.",
     stack: [
       "FastAPI",
-      "Python",
-      "SQLModel",
       "PostgreSQL",
       "Docker",
       "Terraform",
       "AWS ECS",
+      "GitHub Actions",
       "MuleSoft",
       "Slack",
     ],
@@ -50,7 +50,10 @@ const projects: Project[] = [
 ];
 
 function App() {
-  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<{
+    src: string;
+    alt: string;
+  } | null>(null);
 
   return (
     <>
@@ -67,9 +70,8 @@ function App() {
             <div className="learning">
               <span className="learning-label">currently learning:</span>
               <ul>
-                <li>AWS Cloud Practitioner Essentials</li>
-                <li>Terraform</li>
-                <li>GitHub Actions</li>
+                <li> AWS Cloud Practitioner Essentials </li>
+                <li> CI/CD with GitHub Actions </li>
               </ul>
             </div>
           </div>
@@ -92,18 +94,62 @@ function App() {
                 </div>
 
                 {project.name === "Anturi API" && (
-                  <div className="flow-preview">
+                  <div
+                    className="flow-preview"
+                    style={{
+                      display: "flex",
+                      gap: "0.75rem",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <img
+                      src={anturiArchitecture}
+                      alt="Anturi API AWS architecture: ALB, ECS Fargate and RDS, built with Terraform"
+                      className="flow-image-small"
+                      onClick={() =>
+                        setLightboxImage({
+                          src: anturiArchitecture,
+                          alt: "Anturi API AWS architecture, enlarged",
+                        })
+                      }
+                    />
                     <img
                       src={anturiFlow}
                       alt="Anturi Monitor integration flow in Anypoint Studio"
                       className="flow-image-small"
-                      onClick={() => setLightboxOpen(true)}
+                      onClick={() =>
+                        setLightboxImage({
+                          src: anturiFlow,
+                          alt: "Anturi Monitor integration flow, enlarged",
+                        })
+                      }
                     />
+                  </div>
+                )}
+
+                {project.name === "Anturi API" && (
+                  <div className="diagram-links">
                     <button
                       className="flow-link"
-                      onClick={() => setLightboxOpen(true)}
+                      onClick={() =>
+                        setLightboxImage({
+                          src: anturiArchitecture,
+                          alt: "Anturi API AWS architecture, enlarged",
+                        })
+                      }
                     >
-                      [view diagram]
+                      [architecture]
+                    </button>{" "}
+                    <button
+                      className="flow-link"
+                      onClick={() =>
+                        setLightboxImage({
+                          src: anturiFlow,
+                          alt: "Anturi Monitor integration flow, enlarged",
+                        })
+                      }
+                    >
+                      [mulesoft flow]
                     </button>
                   </div>
                 )}
@@ -143,14 +189,14 @@ function App() {
         </div>
       </section>
 
-      {lightboxOpen && (
+      {lightboxImage && (
         <div
           className="lightbox-overlay"
-          onClick={() => setLightboxOpen(false)}
+          onClick={() => setLightboxImage(null)}
         >
           <img
-            src={anturiFlow}
-            alt="Anturi Monitor integration flow, enlarged"
+            src={lightboxImage.src}
+            alt={lightboxImage.alt}
             className="lightbox-image"
           />
         </div>
