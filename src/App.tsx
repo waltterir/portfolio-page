@@ -115,7 +115,7 @@ function App() {
             </aside>
           </div>
         </header>
-        <Minigolf />
+
         <div className="projects-section">
           <p>Some of my projects:</p>
           <div className="projects">
