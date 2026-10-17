@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import "./App.css";
 import anturiFlow from "./assets/anturi-flow.png";
 import anturiArchitecture from "./assets/anturi-api-architecture.png";
@@ -115,7 +115,6 @@ function App() {
             </aside>
           </div>
         </header>
-
         <div className="projects-section">
           <p>Some of my projects:</p>
           <div className="projects">
