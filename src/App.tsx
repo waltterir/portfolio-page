@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import anturiFlow from "./assets/anturi-flow.png";
 import anturiArchitecture from "./assets/anturi-api-architecture.png";
+import { useRef } from "react";
 
 interface Project {
   name: string;
@@ -11,6 +12,18 @@ interface Project {
   link?: string;
   linkLabel?: string;
 }
+
+const techStack = [
+  "Python",
+  "FastAPI",
+  "SQLModel",
+  "Docker",
+  "AWS",
+  "React",
+  "TypeScript",
+  "MuleSoft",
+  "Git",
+];
 
 const projects: Project[] = [
   {
@@ -61,19 +74,46 @@ function App() {
         <header className="landing">
           <div className="hero"></div>
           <h1>waltteri.dev</h1>
-          <div className="intro">
-            <p>
-              Hi, I'm Waltteri. I'm finishing my IT degree at SAMK, focusing on
-              backend development, integrations and cloud. I'm interested in
-              architecture of all kinds, from APIs to infrastructure.
-            </p>
-            <div className="learning">
-              <span className="learning-label">currently learning:</span>
-              <ul>
-                <li> AWS Cloud Practitioner Essentials </li>
-                <li> CI/CD with GitHub Actions </li>
-              </ul>
+
+          <div className="landing-grid">
+            {/* Vasen sarake: esittely + about me */}
+            <div className="intro">
+              <p>
+                Developer in the making, working across backend, cloud and
+                integrations. Fascinated by how all the pieces fit together,
+                from APIs to the infrastructure they run on.
+              </p>
+              <div className="aboutme">
+                <h3>About me</h3>
+                <p>
+                  I'm a proactive learner who enjoys discovering new tech. I'm
+                  fascinated by different solutions and love working my way
+                  through all kinds of problems.
+                </p>
+                <p>
+                  In my free time, I nerd out over games and tech content, and
+                  occasionally lose 20+ balls in a single round of golf :)
+                </p>
+              </div>
             </div>
+
+            {/* Oikea sarake: stack + opiskelu */}
+            <aside className="landing-side">
+              <h3>Here are some technologies I have been working with:</h3>
+              <ul className="tech-list">
+                {techStack.map((tech) => (
+                  <li key={tech}>{tech}</li>
+                ))}
+              </ul>
+
+              <div className="learning">
+                <span className="learning-label">currently learning:</span>
+                <ul>
+                  <li>AWS Cloud Practitioner Essentials</li>
+                  <li>CI/CD with GitHub Actions</li>
+                </ul>
+              </div>
+            </aside>
           </div>
         </header>
 

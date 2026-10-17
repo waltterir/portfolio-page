@@ -1,21 +1,36 @@
+/* ==========================================================================
+   FONTTI
+   Ladataan JetBrains Mono Google Fontsista (käytetään koko sivulla)
+   ========================================================================== */
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
+/* ==========================================================================
+   VÄRIMUUTTUJAT
+   Kaikki sivun värit määritellään tässä. Vaihda arvo täällä, niin se
+   muuttuu kaikkialla missä muuttujaa käytetään.
+   ========================================================================== */
 :root {
-  --bg: #0d1117;
-  --surface: #151b23;
-  --surface-2: #10151b;
-  --border: #242c36;
-  --text: #e6edf3;
-  --text-soft: #b5c0cb;
-  --muted: #7d8a97;
-  --green: #5fd38d;
-  --green-dim: #2f7a50;
+  --bg: #0d1117; /* Sivun taustaväri */
+  --surface: #151b23; /* Korttien tausta (projektit, about me) */
+  --surface-2: #10151b; /* Tummempi tausta pienille elementeille (stack-tagit) */
+  --border: #242c36; /* Reunaviivojen perusväri */
+  --text: #e6edf3; /* Pääteksti ja otsikot */
+  --text-soft: #b5c0cb; /* Pehmeämpi leipäteksti (kuvaukset) */
+  --muted: #7d8a97; /* Himmeä teksti (osioiden otsikot, labelit) */
+  --green: #5fd38d; /* Korostusväri (linkit, nimi, tagit) */
+  --green-dim: #2f7a50; /* Himmeämpi vihreä (reunat, hover-reunat) */
 }
 
+/* ==========================================================================
+   PERUSASETUKSET
+   ========================================================================== */
+
+/* Leveys ja korkeus sisältävät paddingin ja reunan -> layout helpompi hallita */
 * {
   box-sizing: border-box;
 }
 
+/* Koko sivun tausta, tekstin oletusväri ja fontti */
 body {
   margin: 0;
   background: var(--bg);
@@ -23,23 +38,34 @@ body {
   font-family: "JetBrains Mono", monospace;
 }
 
+/* Tekstin maalausväri, kun käyttäjä valitsee tekstiä hiirellä */
 ::selection {
   background: var(--green);
   color: var(--bg);
 }
 
-/* Sisältö lähemmäs vasenta reunaa */
+/* ==========================================================================
+   PÄÄSISÄLTÖ (#center)
+   Koko sivun sisältöalue: maksimileveys ja reunojen välistys.
+   Sisältö on lähempänä vasenta reunaa (margin: 0, ei keskitetä).
+   ========================================================================== */
 #center {
   max-width: 80rem;
   margin: 0;
   padding: 0 clamp(1.5rem, 8vw, 9rem) 5rem;
 }
 
-/* Nimi + esittely, sopiva tila ylä- ja alapuolella */
+/* ==========================================================================
+   LANDING / HEADER
+   Nimi + esittely sivun yläosassa
+   ========================================================================== */
+
+/* Header-alueen tila ylä- ja alapuolella */
 .landing {
   padding: clamp(4rem, 14vh, 8rem) 0 4rem;
 }
 
+/* Vihreä lyhyt viiva nimen yläpuolella */
 .hero {
   height: 3px;
   width: 4rem;
@@ -48,6 +74,7 @@ body {
   border-radius: 2px;
 }
 
+/* Iso vihreä nimi "waltteri.dev" */
 h1 {
   font-size: clamp(2.75rem, 8vw, 5.25rem);
   font-weight: 700;
@@ -57,7 +84,10 @@ h1 {
   color: var(--green);
 }
 
-.intro p {
+/* Esittelyteksti nimen alla ("Developer in the making...").
+   ">" tarkoittaa, että tyyli koskee VAIN .intro:n suoraa p-lasta,
+   eikä esim. About me -osion kappaletta. */
+.intro > p {
   max-width: 38rem;
   padding: 0 0 0 1.25rem;
   border-left: 2px solid var(--green-dim);
@@ -67,13 +97,157 @@ h1 {
   margin: 0;
 }
 
-/* Projektit eivät veny liian leveiksi isolla näytöllä */
+/* ==========================================================================
+   ABOUT ME
+   Kortti esittelytekstin alla, sama tyyli kuin projektikorteissa
+   ========================================================================== */
+/* About me -osio: pelkkä otsikko + teksti, ei korttia */
+.aboutme {
+  max-width: 38rem;
+  margin-top: 2.5rem;
+}
+
+/* About me -otsikko: sama tyyli kuin osioiden otsikoissa */
+.aboutme h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: lightgray;
+}
+
+/* Vihreä "// " otsikon eteen */
+.aboutme h3::before {
+  content: "// ";
+  color: var(--green);
+}
+
+/* About me -leipäteksti */
+.aboutme p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+  margin-top: 1rem;
+  color: lightgrey;
+}
+
+/* Headerin kaksi saraketta: oletuksena (mobiili) allekkain */
+.landing-grid {
+  display: grid;
+  gap: 3rem;
+}
+
+/* Leveällä näytöllä sarakkeet vierekkäin: vasen tekstille, oikea stackille */
+@media (min-width: 900px) {
+  .landing-grid {
+    grid-template-columns: minmax(0, 38rem) minmax(0, 22rem);
+    gap: 5rem;
+    align-items: start;
+  }
+}
+
+/* Oikean sarakkeen otsikko: sama tyyli kuin About me -otsikossa */
+.landing-side h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Vihreä "// " oikean sarakkeen otsikon eteen */
+.landing-side h3::before {
+  content: "// ";
+  color: var(--green);
+}
+
+/* Teknologialista: kaksi saraketta, ei listapalloja */
+
+.tech-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 12rem));
+  gap: 0.4rem 1.5rem;
+}
+
+/* Yksittäinen teknologia */
+.tech-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+
+/* Vihreä kolmio jokaisen teknologian eteen */
+.tech-list li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--green);
+}
+
+/* ==========================================================================
+   CURRENTLY LEARNING
+   Rivi, jossa label + vihreät "pillerit" opiskeltavista aiheista
+   ========================================================================== */
+
+/* Koko rivin asettelu: label ja tagit vierekkäin, rivittyy kapealla */
+.learning {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* "currently learning:" -teksti */
+.learning-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* Vihreä "> " labelin eteen (terminaalityyli) */
+.learning-label::before {
+  content: "> ";
+  color: var(--green);
+}
+
+/* Tagilista: poistaa listan pallot ja asettaa tagit riviin */
+.learning ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Yksittäinen opiskeluaihe-tagi (pyöreä vihreä reunus) */
+.learning li {
+  font-size: 0.75rem;
+  color: var(--green);
+  border: 1px solid var(--green-dim);
+  border-radius: 999px;
+  padding: 0.15rem 0.65rem;
+}
+
+/* ==========================================================================
+   OSIOIDEN YHTEISET TYYLIT (Projects, Social, Spotify)
+   ========================================================================== */
+
+/* Projekti- ja some-osiot eivät veny liian leveiksi isolla näytöllä */
 .projects-section,
 .social-section {
   max-width: 64rem;
 }
 
-/* Projektit nimen alla, kahdessa sarakkeessa leveällä näytöllä */
+/* Osioiden otsikot (esim. "PROJECTS"): pieni, himmeä, isot kirjaimet */
 .projects-section > p,
 .social-section > p,
 .spotify-section > p {
@@ -82,8 +256,10 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   margin: 0 0 1.25rem;
+  color: whitesmoke;
 }
 
+/* Vihreä "// " osioiden otsikoiden eteen */
 .projects-section > p::before,
 .social-section > p::before,
 .spotify-section > p::before {
@@ -91,12 +267,18 @@ h1 {
   color: var(--green);
 }
 
+/* ==========================================================================
+   PROJEKTIT
+   ========================================================================== */
+
+/* Projektikorttien ruudukko: 2 saraketta leveällä, 1 kapealla näytöllä */
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
   gap: 1rem;
 }
 
+/* Yksittäinen projektikortti: tausta, reuna, sisätila */
 .project-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -107,11 +289,13 @@ h1 {
     transform 0.15s ease;
 }
 
+/* Kortti nousee hieman ja reuna vihertyy hiiren ollessa päällä */
 .project-card:hover {
   border-color: var(--green-dim);
   transform: translateY(-2px);
 }
 
+/* Kortin yläosa: projektin nimi vasemmalla, tagi oikealla */
 .project-header {
   display: flex;
   justify-content: space-between;
@@ -120,6 +304,7 @@ h1 {
   flex-wrap: wrap;
 }
 
+/* Projektin nimi */
 .project-header h2 {
   font-size: 1.15rem;
   margin: 0;
@@ -127,6 +312,7 @@ h1 {
   color: var(--text);
 }
 
+/* Projektin tyyppitagi otsikon vieressä (esim. "capstone") */
 .project-tag {
   font-size: 0.7rem;
   color: var(--green);
@@ -135,6 +321,7 @@ h1 {
   padding: 0.1rem 0.6rem;
 }
 
+/* Projektin kuvausteksti */
 .project-card > p {
   font-size: 0.875rem;
   color: var(--text-soft);
@@ -142,12 +329,14 @@ h1 {
   margin: 0.75rem 0 1rem;
 }
 
+/* Teknologiatagien rivi (Python, FastAPI jne.) */
 .project-stack {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
 }
 
+/* Yksittäinen teknologiatagi */
 .project-stack span {
   font-size: 0.72rem;
   color: var(--muted);
@@ -157,6 +346,7 @@ h1 {
   padding: 0.2rem 0.5rem;
 }
 
+/* Kortin linkit (GitHub, live demo) */
 .project-card a {
   display: inline-block;
   margin-top: 1rem;
@@ -166,46 +356,21 @@ h1 {
   text-decoration: none;
 }
 
+/* Linkki alleviivataan hiiren ollessa päällä */
 .project-card a:hover {
   text-decoration: underline;
 }
 
-.social-section {
-  margin-top: 5rem;
-}
+/* ==========================================================================
+   FLOW-KAAVIO (projektikortin pieni esikatselukuva)
+   ========================================================================== */
 
-.social-links {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-}
-
-.social-links a {
-  font-size: 0.9rem;
-  color: var(--green);
-  text-decoration: none;
-}
-
-.social-links a:hover {
-  text-decoration: underline;
-}
-
-.spotify-section {
-  margin-top: 5rem;
-  max-width: 38rem;
-}
-
-.spotify-section iframe {
-  display: block;
-}
-
+/* Esikatselukuvan väli yläpuolella olevaan sisältöön */
 .flow-preview {
   margin-top: 1rem;
 }
 
+/* Pieni esikatselukuva, suurennuslasi-kursori */
 .flow-image-small {
   width: 100%;
   max-width: 280px;
@@ -215,6 +380,7 @@ h1 {
   cursor: zoom-in;
 }
 
+/* "Näytä kaavio" -nappi, näyttää linkiltä */
 .flow-link {
   background: none;
   border: none;
@@ -226,10 +392,16 @@ h1 {
   cursor: pointer;
 }
 
+/* Nappi alleviivataan hiiren ollessa päällä */
 .flow-link:hover {
   text-decoration: underline;
 }
 
+/* ==========================================================================
+   LIGHTBOX (suurennettu kuva koko näytön päällä)
+   ========================================================================== */
+
+/* Tumma tausta koko näytön päälle, kuva keskelle */
 .lightbox-overlay {
   position: fixed;
   inset: 0;
@@ -242,53 +414,75 @@ h1 {
   cursor: zoom-out;
 }
 
+/* Suurennettu kuva: mahtuu aina näytölle */
 .lightbox-image {
   max-width: 90vw;
   max-height: 90vh;
   border-radius: 8px;
 }
 
-@media (max-width: 600px) {
-  #center {
-    padding: 0 1.25rem 3rem;
-  }
+/* ==========================================================================
+   SOME-LINKIT
+   ========================================================================== */
 
-  .landing {
-    padding: 4rem 0 3rem;
-  }
+/* Väli projekteihin */
+.social-section {
+  margin-top: 5rem;
 }
 
-.learning {
-  margin-top: 2rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.learning-label {
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.learning-label::before {
-  content: "> ";
-  color: var(--green);
-}
-
-.learning ul {
+/* Linkkilista riviin ilman listapalloja */
+.social-links {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.5rem 1.5rem;
 }
 
-.learning li {
-  font-size: 0.75rem;
+/* Yksittäinen some-linkki (GitHub, LinkedIn) */
+.social-links a {
+  font-size: 0.9rem;
   color: var(--green);
-  border: 1px solid var(--green-dim);
-  border-radius: 999px;
-  padding: 0.15rem 0.65rem;
+  text-decoration: none;
+}
+
+/* Linkki alleviivataan hiiren ollessa päällä */
+.social-links a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   SPOTIFY
+   ========================================================================== */
+
+/* Spotify-osion väli ja leveys */
+.spotify-section {
+  margin-top: 5rem;
+  max-width: 38rem;
+}
+
+/* Poistaa iframen alle jäävän ylimääräisen raon */
+.spotify-section iframe {
+  display: block;
+}
+
+/* ==========================================================================
+   MOBIILI (alle 600px leveät näytöt)
+   ========================================================================== */
+@media (max-width: 600px) {
+  /* Pienemmät reunavälit puhelimella */
+  #center {
+    padding: 0 1.25rem 3rem;
+  }
+
+  /* Vähemmän tilaa headerin ylä- ja alapuolella */
+  .landing {
+    padding: 4rem 0 3rem;
+  }
+
+  /* About me -kortin sisätila hieman pienemmäksi */
+  .aboutme {
+    padding: 1rem 1.25rem;
+  }
 }
