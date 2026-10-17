@@ -92,7 +92,7 @@ function App() {
                 </p>
                 <p>
                   In my free time, I nerd out over games and tech content, and
-                  occasionally lose 20+ balls in a single round of golf :)
+                  occasionally lose 20+ balls in a single round of golf "👍"
                 </p>
               </div>
             </div>
