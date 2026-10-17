@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import anturiFlow from "./assets/anturi-flow.png";
 import anturiArchitecture from "./assets/anturi-api-architecture.png";
+import Minigolf from "./components/Minigolf";
 
 interface Project {
   name: string;
@@ -66,7 +67,7 @@ function App() {
     src: string;
     alt: string;
   } | null>(null);
-
+  const [gameOpen, setGameOpen] = useState(false);
   return (
     <>
       <section id="center">
@@ -98,13 +99,12 @@ function App() {
 
             {/* Oikea sarake: stack + opiskelu */}
             <aside className="landing-side">
-              <h3>Here are some technologies I have been working with:</h3>
+              <h3>Tech i've been working with:</h3>
               <ul className="tech-list">
                 {techStack.map((tech) => (
                   <li key={tech}>{tech}</li>
                 ))}
               </ul>
-
               <div className="learning">
                 <span className="learning-label">currently learning:</span>
                 <ul>
@@ -113,8 +113,34 @@ function App() {
                 </ul>
               </div>
             </aside>
+
+            <div className="minigolf-section">
+              {gameOpen ? (
+                <>
+                  <div className="minigolf-header">
+                    <h3>Mini golf</h3>
+                    <button
+                      className="minigolf-close"
+                      onClick={() => setGameOpen(false)}
+                      aria-label="Close game"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <Minigolf />
+                </>
+              ) : (
+                <button
+                  className="swing-button"
+                  onClick={() => setGameOpen(true)}
+                >
+                  Take a swing!
+                </button>
+              )}
+            </div>
           </div>
         </header>
+
         <div className="projects-section">
           <p>Some of my projects:</p>
           <div className="projects">

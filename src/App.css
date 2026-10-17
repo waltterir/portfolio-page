@@ -11,7 +11,7 @@
    ========================================================================== */
 :root {
   --bg: #0d1117; /* Sivun taustaväri */
-  --surface: #151b23; /* Korttien tausta (projektit, about me) */
+  --surface: #151b23; /* Korttien tausta (projektit) */
   --surface-2: #10151b; /* Tummempi tausta pienille elementeille (stack-tagit) */
   --border: #242c36; /* Reunaviivojen perusväri */
   --text: #e6edf3; /* Pääteksti ja otsikot */
@@ -48,9 +48,10 @@ body {
    PÄÄSISÄLTÖ (#center)
    Koko sivun sisältöalue: maksimileveys ja reunojen välistys.
    Sisältö on lähempänä vasenta reunaa (margin: 0, ei keskitetä).
+   Leveys 120rem, jotta headerin kolmas sarake (minigolf) mahtuu.
    ========================================================================== */
 #center {
-  max-width: 80rem;
+  max-width: 120rem;
   margin: 0;
   padding: 0 clamp(1.5rem, 8vw, 9rem) 5rem;
 }
@@ -98,10 +99,44 @@ h1 {
 }
 
 /* ==========================================================================
-   ABOUT ME
-   Kortti esittelytekstin alla, sama tyyli kuin projektikorteissa
+   HEADERIN SARAKKEET
+   Mobiili: kaikki allekkain
+   900px+: kaksi saraketta (teksti | stack), minigolf niiden alla
+   1400px+: kolme saraketta (teksti | stack | minigolf)
    ========================================================================== */
-/* About me -osio: pelkkä otsikko + teksti, ei korttia */
+
+/* Oletuksena (mobiili) kaikki allekkain */
+.landing-grid {
+  display: grid;
+  gap: 3rem;
+}
+
+/* Keskikokoinen näyttö: kaksi saraketta vierekkäin */
+@media (min-width: 900px) {
+  .landing-grid {
+    grid-template-columns: minmax(0, 38rem) minmax(0, 22rem);
+    gap: 5rem;
+    align-items: start;
+  }
+}
+
+/* Leveä näyttö: kolmas sarake minigolfille oikealle */
+@media (min-width: 1400px) {
+  .landing-grid {
+    grid-template-columns: minmax(0, 38rem) minmax(0, 22rem) minmax(
+        26rem,
+        36rem
+      );
+    gap: 4rem;
+  }
+}
+
+/* ==========================================================================
+   ABOUT ME
+   Pelkkä otsikko + teksti vasemmassa sarakkeessa, ei korttia
+   ========================================================================== */
+
+/* About me -osion leveys ja väli esittelytekstiin */
 .aboutme {
   max-width: 38rem;
   margin-top: 2.5rem;
@@ -115,7 +150,6 @@ h1 {
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: lightgray;
 }
 
 /* Vihreä "// " otsikon eteen */
@@ -134,20 +168,9 @@ h1 {
   color: lightgrey;
 }
 
-/* Headerin kaksi saraketta: oletuksena (mobiili) allekkain */
-.landing-grid {
-  display: grid;
-  gap: 3rem;
-}
-
-/* Leveällä näytöllä sarakkeet vierekkäin: vasen tekstille, oikea stackille */
-@media (min-width: 900px) {
-  .landing-grid {
-    grid-template-columns: minmax(0, 38rem) minmax(0, 22rem);
-    gap: 5rem;
-    align-items: start;
-  }
-}
+/* ==========================================================================
+   TECH STACK (oikea sarake)
+   ========================================================================== */
 
 /* Oikean sarakkeen otsikko: sama tyyli kuin About me -otsikossa */
 .landing-side h3 {
@@ -166,7 +189,6 @@ h1 {
 }
 
 /* Teknologialista: kaksi saraketta, ei listapalloja */
-
 .tech-list {
   list-style: none;
   margin: 0.75rem 0 0;
@@ -238,6 +260,108 @@ h1 {
 }
 
 /* ==========================================================================
+   MINIGOLF (headerin kolmas sarake)
+   Aluksi näkyy vain "Take a swing!" -nappi, klikkaus avaa pelin
+   ========================================================================== */
+
+/* Minigolf-osion leveys: canvas ei kasva yli 600px */
+.minigolf-section {
+  max-width: 600px;
+}
+
+/* "Take a swing!" -nappi: vihreä reunus, täyttyy vihreäksi hoverilla */
+.swing-button {
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--green);
+  background: none;
+  border: 1px solid var(--green-dim);
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+/* Terminaalityylinen "> " napin tekstin eteen */
+.swing-button::before {
+  content: "> ";
+}
+
+/* Napin hover: vihreä tausta, tumma teksti */
+.swing-button:hover {
+  background: var(--green);
+  color: var(--bg);
+}
+
+/* Pelin yläpalkki: otsikko vasemmalla, sulkunappi oikealla */
+.minigolf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+/* Minigolf-otsikko: sama tyyli kuin muut osio-otsikot */
+.minigolf-header h3 {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* Vihreä "// " minigolf-otsikon eteen */
+.minigolf-header h3::before {
+  content: "// ";
+  color: var(--green);
+}
+
+/* Sulkunappi (✕) */
+.minigolf-close {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: color 0.15s ease;
+}
+
+/* Sulkunappi vihertyy hoverilla */
+.minigolf-close:hover {
+  color: var(--green);
+}
+
+/* Pelin canvas: pyöristetyt kulmat, kutistuu kapealla näytöllä,
+   ilmestyy pehmeästi (fade-in) kun peli avataan */
+.minigolf {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  touch-action: none; /* estää sivun vierityksen, kun tähdätään puhelimella */
+  animation: fade-in 0.25s ease;
+}
+
+/* Fade-in-animaatio: läpinäkyvästä näkyväksi ja hieman ylöspäin */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
    OSIOIDEN YHTEISET TYYLIT (Projects, Social, Spotify)
    ========================================================================== */
 
@@ -247,7 +371,7 @@ h1 {
   max-width: 64rem;
 }
 
-/* Osioiden otsikot (esim. "PROJECTS"): pieni, himmeä, isot kirjaimet */
+/* Osioiden otsikot (esim. "PROJECTS"): pieni, isot kirjaimet */
 .projects-section > p,
 .social-section > p,
 .spotify-section > p {
@@ -453,21 +577,6 @@ h1 {
 }
 
 /* ==========================================================================
-   SPOTIFY
-   ========================================================================== */
-
-/* Spotify-osion väli ja leveys */
-.spotify-section {
-  margin-top: 5rem;
-  max-width: 38rem;
-}
-
-/* Poistaa iframen alle jäävän ylimääräisen raon */
-.spotify-section iframe {
-  display: block;
-}
-
-/* ==========================================================================
    MOBIILI (alle 600px leveät näytöt)
    ========================================================================== */
 @media (max-width: 600px) {
@@ -479,10 +588,5 @@ h1 {
   /* Vähemmän tilaa headerin ylä- ja alapuolella */
   .landing {
     padding: 4rem 0 3rem;
-  }
-
-  /* About me -kortin sisätila hieman pienemmäksi */
-  .aboutme {
-    padding: 1rem 1.25rem;
   }
 }
