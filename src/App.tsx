@@ -1,8 +1,7 @@
-import { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./App.css";
 import anturiFlow from "./assets/anturi-flow.png";
 import anturiArchitecture from "./assets/anturi-api-architecture.png";
-import { useRef } from "react";
 
 interface Project {
   name: string;
@@ -15,13 +14,13 @@ interface Project {
 
 const techStack = [
   "Python",
-  "FastAPI",
-  "SQLModel",
-  "Docker",
-  "AWS",
-  "React",
-  "TypeScript",
   "MuleSoft",
+  "React",
+  "Docker",
+  "SQLModel",
+  "TypeScript",
+  "AWS",
+  "FastAPI",
   "Git",
 ];
 
@@ -116,7 +115,7 @@ function App() {
             </aside>
           </div>
         </header>
-
+        <Minigolf />
         <div className="projects-section">
           <p>Some of my projects:</p>
           <div className="projects">
@@ -166,7 +165,6 @@ function App() {
                     />
                   </div>
                 )}
-
                 {project.name === "Anturi API" && (
                   <div className="diagram-links">
                     <button
