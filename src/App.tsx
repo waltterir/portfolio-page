@@ -24,6 +24,9 @@ const techStack = [
   "AWS",
   "FastAPI",
   "Git",
+  "Terraform",
+  "Github Actions",
+  "PostgreSQL",
 ];
 
 const projects: Project[] = [
