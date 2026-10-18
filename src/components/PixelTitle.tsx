@@ -7,8 +7,8 @@ import { createTextCanvas, sampleCanvas } from "../lib/PixelTest";
 // ============================================================
 const RADIUS = 80; // kuinka kaukaa hiiri vaikuttaa (px)
 const STRENGTH = 6; // kuinka kovaa työntää
-const SPEED_MIN = 0.02; // INTRO: hitaimman pisteen paluunopeus
-const SPEED_MAX = 0.08; // INTRO: nopeimman pisteen paluunopeus
+const SPEED_MIN = 0.04; // INTRO: hitaimman pisteen paluunopeus
+const SPEED_MAX = 0.12; // INTRO: nopeimman pisteen paluunopeus
 const STEP_X = 2; // näytteenoton väli vaakasuunnassa (px)
 const STEP_Y = 4; // näytteenoton väli pystysuunnassa (px)
 const CANVAS_PADDING = 10; // sama reunus kuin createTextCanvasissa
@@ -42,6 +42,7 @@ export default function PixelTitle({
     let textWidth = 0;
     const mouse = { x: 99999, y: 99999 };
     let cancelled = false;
+    let lastTime = 0;
 
     let buildId = 0;
     let builtWidth = 0;
@@ -112,7 +113,13 @@ export default function PixelTitle({
     // --------------------------------------------------------
     // 4. Animaatioloop
     // --------------------------------------------------------
-    function animate() {
+    function animate(time: number) {
+      // Montako "60 fps -framea" kului edellisestä kerrasta.
+      // 60 Hz -> 1, 144 Hz -> ~0.42. Rajataan 3:een, ettei pitkä
+      // tauko (esim. välilehti taustalla) aiheuta hyppyä.
+      const dt = lastTime ? Math.min((time - lastTime) / (1000 / 60), 3) : 1;
+      lastTime = time;
+
       if (geometry && original && speeds && points) {
         const attr = geometry.getAttribute("position") as THREE.BufferAttribute;
         const pos = attr.array as Float32Array;
@@ -126,17 +133,18 @@ export default function PixelTitle({
           const dy = pos[i + 1] - my;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
+          // Työntö skaalattuna kuluneella ajalla
           if (dist < RADIUS && dist > 0) {
             const force = (RADIUS - dist) / RADIUS;
-            pos[i] += (dx / dist) * force * STRENGTH;
-            pos[i + 1] += (dy / dist) * force * STRENGTH;
+            pos[i] += (dx / dist) * force * STRENGTH * dt;
+            pos[i + 1] += (dy / dist) * force * STRENGTH * dt;
           }
 
-          // INTRO: jokaisella pisteellä oma nopeus.
+          // Paluu: jokaisella pisteellä oma nopeus, skaalattuna ajalla.
           // Sama logiikka hoitaa sisääntulon ja hiiren jälkeisen paluun.
-          const speed = speeds[i / 3];
-          pos[i] += (original[i] - pos[i]) * speed;
-          pos[i + 1] += (original[i + 1] - pos[i + 1]) * speed;
+          const k = 1 - Math.pow(1 - speeds[i / 3], dt);
+          pos[i] += (original[i] - pos[i]) * k;
+          pos[i + 1] += (original[i + 1] - pos[i + 1]) * k;
         }
 
         attr.needsUpdate = true;
