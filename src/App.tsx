@@ -80,7 +80,7 @@ function App() {
             <div className="hero" />
             <SocialLinks />
           </div>
-          <PixelTitle text="waltteri.dev" fontSize={100} color="#4ade83" />
+          <PixelTitle text="waltteri.dev" fontSize={110} color="#4ade83" />
 
           <div className="landing-grid">
             {/* Vasen sarake: esittely + about me */}
