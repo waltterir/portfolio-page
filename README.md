@@ -1,32 +1,25 @@
-# React + TypeScript + Vite
+# Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Live: [waltteri.dev](https://waltteri.dev)
 
-Currently, two official plugins are available:
+## What and why?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+A portfolio to showcase my finished and upcoming projects.
+It also serves as a playground for building fun things and trying out
+different ideas and technologies.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Pixel title** – the `waltteri.dev` heading is rendered as a Three.js
+  point cloud. Points assemble into the text on page load and get pushed
+  away by the cursor.
+- **Minigolf** – a small mini-game behind the "Take a swing!" button.
+- **Project cards** – short descriptions of my projects with their tech stacks.
 
-## Expanding the Oxlint configuration
+## Tech
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+- React
+- TypeScript
+- Three.js
+- Vite
+- Deployed on Vercel
