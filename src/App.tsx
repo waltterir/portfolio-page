@@ -3,6 +3,7 @@ import "./App.css";
 import anturiFlow from "./assets/anturi-flow.png";
 import anturiArchitecture from "./assets/anturi-api-architecture.png";
 import Minigolf from "./components/Minigolf";
+import PixelTitle from "./components/PixelTitle";
 
 interface Project {
   name: string;
@@ -73,7 +74,7 @@ function App() {
       <section id="center">
         <header className="landing">
           <div className="hero"></div>
-          <h1>waltteri.dev</h1>
+          <PixelTitle text="Waltteri.dev" fontSize={110} color="#4ade83" />
 
           <div className="landing-grid">
             {/* Vasen sarake: esittely + about me */}

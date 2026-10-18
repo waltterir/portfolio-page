@@ -7,21 +7,22 @@ import { createTextCanvas, sampleCanvas } from "../lib/PixelTest";
 // ============================================================
 const RADIUS = 80; // kuinka kaukaa hiiri vaikuttaa (px)
 const STRENGTH = 6; // kuinka kovaa työntää
-const RETURN = 0.08; // kuinka nopeasti pisteet palaavat (0..1)
-const STEP_X = 4; // näytteenoton väli vaakasuunnassa (px)
+const SPEED_MIN = 0.02; // INTRO: hitaimman pisteen paluunopeus
+const SPEED_MAX = 0.08; // INTRO: nopeimman pisteen paluunopeus
+const STEP_X = 2; // näytteenoton väli vaakasuunnassa (px)
 const STEP_Y = 4; // näytteenoton väli pystysuunnassa (px)
+const CANVAS_PADDING = 10; // sama reunus kuin createTextCanvasissa
+const MIN_FONT_SIZE = 32; // pienin sallittu fonttikoko
 
 type PixelTitleProps = {
   text?: string;
-  fontSize?: number;
-  height?: number;
+  fontSize?: number; // maksimikoko, pienenee tarvittaessa
   color?: string;
 };
 
 export default function PixelTitle({
   text = "waltteri.dev",
   fontSize = 120,
-  height = 180,
   color = "#00FF41",
 }: PixelTitleProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -35,14 +36,26 @@ export default function PixelTitle({
     // --------------------------------------------------------
     let geometry: THREE.BufferGeometry | null = null;
     let material: THREE.PointsMaterial | null = null;
+    let points: THREE.Points | null = null;
     let original: Float32Array | null = null;
+    let speeds: Float32Array | null = null; // INTRO: jokaisen pisteen oma nopeus
+    let textWidth = 0;
     const mouse = { x: 99999, y: 99999 };
-
     let cancelled = false;
 
+    let buildId = 0;
+    let builtWidth = 0;
+    let resizeTimer: number | undefined;
+
+    // INTRO: animaatio vain ensimmäisellä rakennuskerralla, ei resizessa.
+    // Jos käyttäjä on pyytänyt vähemmän liikettä, intro ohitetaan.
+    let playIntro = true;
+
     // --------------------------------------------------------
-    // 2. Koko: containerin koko, ei ikkunan
+    // 2. Koko
     // --------------------------------------------------------
+    container.style.height = `${Math.ceil(fontSize * 1.3)}px`;
+
     let width = container.clientWidth;
     let h = container.clientHeight;
 
@@ -66,17 +79,51 @@ export default function PixelTitle({
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
+    // Siirtää tekstin vasemman reunan containerin vasempaan reunaan
+    const alignLeft = () => {
+      if (points) {
+        points.position.x = -width / 2 + textWidth / 2 - CANVAS_PADDING;
+      }
+    };
+
+    // Kameran ja rendererin päivitys
+    const updateView = () => {
+      camera.left = -width / 2;
+      camera.right = width / 2;
+      camera.top = h / 2;
+      camera.bottom = -h / 2;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, h);
+      alignLeft();
+    };
+
+    // Vanhojen pisteiden poisto ennen uudelleenrakennusta
+    const disposePoints = () => {
+      if (points) scene.remove(points);
+      geometry?.dispose();
+      material?.dispose();
+      points = null;
+      geometry = null;
+      material = null;
+      original = null;
+      speeds = null; // INTRO
+    };
+
     // --------------------------------------------------------
-    // 4. Animaatioloop (sama kuin prototyypissä)
+    // 4. Animaatioloop
     // --------------------------------------------------------
     function animate() {
-      if (geometry && original) {
+      if (geometry && original && speeds && points) {
         const attr = geometry.getAttribute("position") as THREE.BufferAttribute;
         const pos = attr.array as Float32Array;
 
+        // Hiiren paikka pisteiden omassa koordinaatistossa
+        const mx = mouse.x - points.position.x;
+        const my = mouse.y - points.position.y;
+
         for (let i = 0; i < pos.length; i += 3) {
-          const dx = pos[i] - mouse.x;
-          const dy = pos[i + 1] - mouse.y;
+          const dx = pos[i] - mx;
+          const dy = pos[i + 1] - my;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < RADIUS && dist > 0) {
@@ -85,8 +132,11 @@ export default function PixelTitle({
             pos[i + 1] += (dy / dist) * force * STRENGTH;
           }
 
-          pos[i] += (original[i] - pos[i]) * RETURN;
-          pos[i + 1] += (original[i + 1] - pos[i + 1]) * RETURN;
+          // INTRO: jokaisella pisteellä oma nopeus.
+          // Sama logiikka hoitaa sisääntulon ja hiiren jälkeisen paluun.
+          const speed = speeds[i / 3];
+          pos[i] += (original[i] - pos[i]) * speed;
+          pos[i + 1] += (original[i + 1] - pos[i + 1]) * speed;
         }
 
         attr.needsUpdate = true;
@@ -98,7 +148,7 @@ export default function PixelTitle({
     renderer.setAnimationLoop(animate);
 
     // --------------------------------------------------------
-    // 5. Hiiri: suhteessa containeriin, ei ikkunaan
+    // 5. Hiiri
     // --------------------------------------------------------
     const onMove = (e: PointerEvent) => {
       const rect = container.getBoundingClientRect();
@@ -115,30 +165,36 @@ export default function PixelTitle({
     container.addEventListener("pointerleave", onLeave);
 
     // --------------------------------------------------------
-    // 6. Resize: ResizeObserver seuraa containeria
+    // 6. Pisteiden rakennus sopivalla fonttikoolla
     // --------------------------------------------------------
-    const observer = new ResizeObserver(() => {
-      width = container.clientWidth;
-      h = container.clientHeight;
+    const build = async () => {
+      const id = ++buildId;
+      const available = container.clientWidth;
+      builtWidth = available;
+      // Piirretään ensin maksimikoolla ja mitataan
+      let c = await createTextCanvas(text, fontSize);
 
-      camera.left = -width / 2;
-      camera.right = width / 2;
-      camera.top = h / 2;
-      camera.bottom = -h / 2;
-      camera.updateProjectionMatrix();
+      // Jos ei mahdu, lasketaan sopiva koko suhteessa
+      if (c.width > available) {
+        const pad = CANVAS_PADDING * 2;
+        const fitted = Math.floor(
+          (fontSize * (available - pad)) / (c.width - pad),
+        );
+        c = await createTextCanvas(text, Math.max(MIN_FONT_SIZE, fitted));
+      }
 
-      renderer.setSize(width, h);
-    });
-    observer.observe(container);
+      if (cancelled || id !== buildId) return;
 
-    // --------------------------------------------------------
-    // 7. Teksti -> pisteet
-    // --------------------------------------------------------
-    createTextCanvas(text, fontSize).then((c) => {
-      if (cancelled) return;
+      disposePoints();
 
       const positions = sampleCanvas(c, STEP_X, STEP_Y);
       original = positions.slice();
+
+      // INTRO: jokaiselle pisteelle oma nopeus
+      speeds = new Float32Array(positions.length / 3);
+      for (let p = 0; p < speeds.length; p++) {
+        speeds[p] = SPEED_MIN + Math.random() * (SPEED_MAX - SPEED_MIN);
+      }
 
       geometry = new THREE.BufferGeometry();
       geometry.setAttribute(
@@ -147,15 +203,58 @@ export default function PixelTitle({
       );
 
       material = new THREE.PointsMaterial({ size: 2, color });
-      scene.add(new THREE.Points(geometry, material));
-    });
+      points = new THREE.Points(geometry, material);
+      textWidth = c.width;
+      scene.add(points);
+
+      container.style.height = `${c.height}px`;
+      width = container.clientWidth;
+      h = c.height;
+      updateView(); // asettaa myös points.position.x:n
+
+      // INTRO: sekoitetaan pisteet satunnaisiin paikkoihin containerin
+      // alueelle. Tehdään vasta updateView()n jälkeen, koska tarvitaan
+      // ryhmän siirto (points.position.x): satunnainen paikka arvotaan
+      // ruudun koordinaateissa ja muunnetaan pisteiden omiin.
+      if (playIntro) {
+        playIntro = false;
+        const offsetX = points.position.x;
+
+        for (let i = 0; i < positions.length; i += 3) {
+          positions[i] = (Math.random() - 0.5) * width - offsetX; // x
+          positions[i + 1] = (Math.random() - 0.5) * h; // y
+        }
+
+        (
+          geometry.getAttribute("position") as THREE.BufferAttribute
+        ).needsUpdate = true;
+      }
+    };
+
+    build();
 
     // --------------------------------------------------------
-    // 8. Cleanup: ajetaan kun komponentti poistuu
-    //    (ja dev-tilassa Strict Moden takia kerran heti alussa)
+    // 7. Resize
+    // --------------------------------------------------------
+    const observer = new ResizeObserver(() => {
+      width = container.clientWidth;
+      h = container.clientHeight;
+      updateView();
+
+      // Jos leveys muuttui, rakennetaan pisteet uudelleen (ilman introa)
+      if (Math.abs(width - builtWidth) > 1) {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(build, 150);
+      }
+    });
+    observer.observe(container);
+
+    // --------------------------------------------------------
+    // 8. Cleanup
     // --------------------------------------------------------
     return () => {
       cancelled = true;
+      window.clearTimeout(resizeTimer);
 
       renderer.setAnimationLoop(null);
 
@@ -163,8 +262,7 @@ export default function PixelTitle({
       container.removeEventListener("pointerleave", onLeave);
       observer.disconnect();
 
-      geometry?.dispose();
-      material?.dispose();
+      disposePoints();
       renderer.dispose();
 
       container.removeChild(renderer.domElement);
@@ -172,11 +270,7 @@ export default function PixelTitle({
   }, [text, fontSize, color]);
 
   return (
-    <div
-      ref={containerRef}
-      style={{ position: "relative", width: "100%", height }}
-    >
-      {/* Oikea otsikko ruudunlukijoille ja hakukoneille, piilotettu näkyvistä */}
+    <div ref={containerRef} style={{ position: "relative", width: "100%" }}>
       <h1
         style={{
           position: "absolute",
