@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import anturiFlow from "./assets/anturi-flow.png";
 import anturiArchitecture from "./assets/anturi-api-architecture.png";
-import Minigolf from "./components/Minigolf";
 import PixelTitle from "./components/PixelTitle";
+import SocialLinks from "./components/SocialLinks";
 
 interface Project {
   name: string;
@@ -68,12 +68,15 @@ function App() {
     src: string;
     alt: string;
   } | null>(null);
-  const [gameOpen, setGameOpen] = useState(false);
+
   return (
     <>
       <section id="center">
         <header className="landing">
-          <div className="hero"></div>
+          <div className="top-row">
+            <div className="hero" />
+            <SocialLinks />
+          </div>
           <PixelTitle text="Waltteri.dev" fontSize={110} color="#4ade83" />
 
           <div className="landing-grid">
@@ -114,36 +117,11 @@ function App() {
                 </ul>
               </div>
             </aside>
-
-            <div className="minigolf-section">
-              {gameOpen ? (
-                <>
-                  <div className="minigolf-header">
-                    <h3>Mini golf</h3>
-                    <button
-                      className="minigolf-close"
-                      onClick={() => setGameOpen(false)}
-                      aria-label="Close game"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <Minigolf />
-                </>
-              ) : (
-                <button
-                  className="swing-button"
-                  onClick={() => setGameOpen(true)}
-                >
-                  Take a swing!
-                </button>
-              )}
-            </div>
           </div>
         </header>
 
         <div className="projects-section">
-          <p>Some of my projects:</p>
+          <p>Projects:</p>
           <div className="projects">
             {projects.map((project) => (
               <div className="project-card" key={project.name}>
@@ -226,30 +204,6 @@ function App() {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="social-section">
-          <p>Find me:</p>
-          <ul className="social-links">
-            <li>
-              <a
-                href="https://github.com/waltterir"
-                target="_blank"
-                rel="noreferrer"
-              >
-                [github.com/waltterir]
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.linkedin.com/in/waltteri-riihim%C3%A4ki-ba0323364/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                [linkedin.com/in/waltteri]
-              </a>
-            </li>
-          </ul>
         </div>
       </section>
 

@@ -46,14 +46,16 @@ body {
 
 /* ==========================================================================
    PÄÄSISÄLTÖ (#center)
-   Koko sivun sisältöalue: maksimileveys ja reunojen välistys.
-   Sisältö on lähempänä vasenta reunaa (margin: 0, ei keskitetä).
-   Leveys 120rem, jotta headerin kolmas sarake (minigolf) mahtuu.
+   Koko sivun sisältöalue, keskitetty ruudulle.
+   content-box: max-width tarkoittaa SISÄLLÖN leveyttä, padding tulee
+   sen päälle. 65rem = kahden sarakkeen grid (38rem + 22rem + 5rem väli),
+   joten ikonit, tech-sarake ja projektikortit päättyvät samaan linjaan.
    ========================================================================== */
 #center {
-  max-width: 120rem;
-  margin: 0;
-  padding: 0 clamp(1.5rem, 8vw, 9rem) 5rem;
+  box-sizing: content-box;
+  max-width: 65rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 5vw, 3rem) 5rem;
 }
 
 /* ==========================================================================
@@ -71,7 +73,6 @@ body {
   height: 3px;
   width: 4rem;
   background: var(--green);
-  margin-bottom: 1.75rem;
   border-radius: 2px;
 }
 
@@ -93,7 +94,7 @@ h1 {
   padding: 0 0 0 1.25rem;
   border-left: 2px solid var(--green-dim);
   line-height: 1.7;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--text-soft);
   margin: 0;
 }
@@ -101,8 +102,7 @@ h1 {
 /* ==========================================================================
    HEADERIN SARAKKEET
    Mobiili: kaikki allekkain
-   900px+: kaksi saraketta (teksti | stack), minigolf niiden alla
-   1400px+: kolme saraketta (teksti | stack | minigolf)
+   900px+: kaksi saraketta (teksti | stack)
    ========================================================================== */
 
 /* Oletuksena (mobiili) kaikki allekkain */
@@ -111,23 +111,12 @@ h1 {
   gap: 3rem;
 }
 
-/* Keskikokoinen näyttö: kaksi saraketta vierekkäin */
+/* Keskikokoinen ja leveä näyttö: kaksi saraketta vierekkäin */
 @media (min-width: 900px) {
   .landing-grid {
     grid-template-columns: minmax(0, 38rem) minmax(0, 22rem);
     gap: 5rem;
     align-items: start;
-  }
-}
-
-/* Leveä näyttö: kolmas sarake minigolfille oikealle */
-@media (min-width: 1400px) {
-  .landing-grid {
-    grid-template-columns: minmax(0, 38rem) minmax(0, 22rem) minmax(
-        26rem,
-        36rem
-      );
-    gap: 4rem;
   }
 }
 
@@ -260,8 +249,9 @@ h1 {
 }
 
 /* ==========================================================================
-   MINIGOLF (headerin kolmas sarake)
-   Aluksi näkyy vain "Take a swing!" -nappi, klikkaus avaa pelin
+   MINIGOLF
+   Ei tällä hetkellä käytössä sivulla. Tyylit säilytetty, jotta pelin
+   voi palauttaa myöhemmin.
    ========================================================================== */
 
 /* Minigolf-osion leveys: canvas ei kasva yli 600px */
@@ -365,10 +355,10 @@ h1 {
    OSIOIDEN YHTEISET TYYLIT (Projects, Social, Spotify)
    ========================================================================== */
 
-/* Projekti- ja some-osiot eivät veny liian leveiksi isolla näytöllä */
+/* Leveys tulee #centeristä, jotta oikea reuna on linjassa yläosan kanssa */
 .projects-section,
 .social-section {
-  max-width: 64rem;
+  max-width: none;
 }
 
 /* Osioiden otsikot (esim. "PROJECTS"): pieni, isot kirjaimet */
@@ -547,33 +537,29 @@ h1 {
 
 /* ==========================================================================
    SOME-LINKIT
+   Vihreä viiva vasemmalla, ikonit oikealla samalla rivillä
    ========================================================================== */
-
-/* Väli projekteihin */
-.social-section {
-  margin-top: 5rem;
-}
-
-/* Linkkilista riviin ilman listapalloja */
-.social-links {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.top-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.75rem;
 }
 
-/* Yksittäinen some-linkki (GitHub, LinkedIn) */
+.social-links {
+  display: flex;
+  gap: 16px;
+}
+
 .social-links a {
-  font-size: 0.9rem;
-  color: var(--green);
-  text-decoration: none;
+  color: var(--text-soft);
+  font-size: 22px;
+  line-height: 0;
+  transition: color 0.2s;
 }
 
-/* Linkki alleviivataan hiiren ollessa päällä */
 .social-links a:hover {
-  text-decoration: underline;
+  color: var(--green);
 }
 
 /* ==========================================================================
