@@ -77,22 +77,23 @@ function App() {
             <div className="hero" />
             <SocialLinks />
           </div>
-          <PixelTitle text="Waltteri.dev" fontSize={110} color="#4ade83" />
+          <PixelTitle text="waltteri.dev" fontSize={100} color="#4ade83" />
 
           <div className="landing-grid">
             {/* Vasen sarake: esittely + about me */}
             <div className="intro">
               <p>
-                Developer in the making, working across backend, cloud and
-                integrations. Fascinated by how all the pieces fit together,
-                from APIs to the infrastructure they run on.
+                IT student in Pori, aiming to work with cloud, software
+                development and integrations. I like understanding how all the
+                pieces fit together, from APIs to the infrastructure they run
+                on.
               </p>
               <div className="aboutme">
                 <h3>About me</h3>
                 <p>
-                  I'm a proactive learner who enjoys discovering new tech. I'm
-                  fascinated by different solutions and love working my way
-                  through all kinds of problems.
+                  I'm the kind of person who sees a new piece of tech and
+                  immediately wants to try it. I enjoy figuring out how things
+                  work and getting stuck on problems until they finally click.
                 </p>
                 <p>
                   In my free time, I nerd out over games and tech content, and
