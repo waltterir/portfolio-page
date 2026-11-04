@@ -13,7 +13,6 @@ different ideas and technologies.
 - **Pixel title** – the `waltteri.dev` heading is rendered as a Three.js
   point cloud. Points assemble into the text on page load and get pushed
   away by the cursor.
-- **Minigolf** – a small mini-game behind the "Take a swing!" button.
 - **Project cards** – short descriptions of my projects with their tech stacks.
 
 ## Tech
