@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import anturiFlow from "./assets/anturi-flow.png";
 import anturiArchitecture from "./assets/anturi-api-architecture.png";
+import golfbotArchitecture from "./assets/golfbot-architecture.png";
+import golfbotWorkflow from "./assets/golfbot-workflow.png";
 import PixelTitle from "./components/PixelTitle";
 import SocialLinks from "./components/SocialLinks";
 
@@ -49,8 +51,25 @@ const projects: Project[] = [
     linkLabel: "code",
   },
   {
+    name: "Golf Weather Bot",
+    tag: "Integration project",
+    description:
+      "A Discord bot that posts tomorrow's golf weather in Pori every evening at 6 pm and recommends the best time to play – morning, midday or evening. I built it to try out n8n in practice and learn how workflows are created with it: n8n fetches the Finnish Meteorological Institute's forecast, transforms the data and sends the notification, while a FastAPI service handles the scoring. The thresholds are based on input from five golfers.",
+    stack: [
+      "Python",
+      "FastAPI",
+      "Pydantic",
+      "pytest",
+      "Docker",
+      "n8n",
+      "Discord",
+    ],
+    link: "https://github.com/waltterir/golfbotti",
+    linkLabel: "code",
+  },
+  {
     name: "Book API",
-    tag: "Practice project",
+    tag: "Backend project",
     description:
       "REST API for books and authors with JWT login and a pytest suite. Containerized with Docker and run on a GCP VM — my first deploy to the cloud.",
     stack: ["FastAPI", "Python", "JWT", "Docker", "GCP"],
@@ -59,7 +78,7 @@ const projects: Project[] = [
   },
   {
     name: "Smart Expense Splitter",
-    tag: "Web app",
+    tag: "Web app Project",
     description: "Expense-splitting app for groups.",
     stack: ["React", "TypeScript", "Vercel"],
     link: "https://smart-expense-splitter-pied.vercel.app/",
@@ -196,6 +215,66 @@ function App() {
                       }
                     >
                       [mulesoft flow]
+                    </button>
+                  </div>
+                )}
+
+                {project.name === "Golf Weather Bot" && (
+                  <div
+                    className="flow-preview"
+                    style={{
+                      display: "flex",
+                      gap: "0.75rem",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <img
+                      src={golfbotArchitecture}
+                      alt="Golf Weather Bot architecture: n8n and FastAPI in Docker Compose, FMI open data and Discord"
+                      className="flow-image-small"
+                      onClick={() =>
+                        setLightboxImage({
+                          src: golfbotArchitecture,
+                          alt: "Golf Weather Bot architecture, enlarged",
+                        })
+                      }
+                    />
+                    <img
+                      src={golfbotWorkflow}
+                      alt="Golf Weather Bot n8n workflow: FMI forecast, data transformation, golf index API and Discord notification"
+                      className="flow-image-small"
+                      onClick={() =>
+                        setLightboxImage({
+                          src: golfbotWorkflow,
+                          alt: "Golf Weather Bot n8n workflow, enlarged",
+                        })
+                      }
+                    />
+                  </div>
+                )}
+                {project.name === "Golf Weather Bot" && (
+                  <div className="diagram-links">
+                    <button
+                      className="flow-link"
+                      onClick={() =>
+                        setLightboxImage({
+                          src: golfbotArchitecture,
+                          alt: "Golf Weather Bot architecture, enlarged",
+                        })
+                      }
+                    >
+                      [architecture]
+                    </button>{" "}
+                    <button
+                      className="flow-link"
+                      onClick={() =>
+                        setLightboxImage({
+                          src: golfbotWorkflow,
+                          alt: "Golf Weather Bot n8n workflow, enlarged",
+                        })
+                      }
+                    >
+                      [n8n workflow]
                     </button>
                   </div>
                 )}
